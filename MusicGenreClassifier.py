@@ -5,8 +5,8 @@ import ast
 import numpy as np
 import sys
 import librosa
-sys.path.append(r"C:\Users\39371\Desktop\MusicGenreClassifier\MusicGenreClassifier\vggish")
-sys.path.append(r"C:\Users\39371\Desktop\MusicGenreClassifier\MusicGenreClassifier\yamnet")
+sys.path.append("\vggish")
+
 
 #from tensorflow.keras.optimizers import scheduler
 import tensorflow as tf
@@ -26,7 +26,6 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 import preprocessing as pp
 import vggish_fine_tuning as vft
-import yamnet_train
 import vggish_input
 from keras.callbacks import Callback
 import seaborn as sns
@@ -90,7 +89,7 @@ def get_k_means_df(df):
     plt.show()
 
     #optimal k with elbow method
-    optimal_k = np.argmin(inertia_values) + 2  # +2 perché inizia da K=2
+    optimal_k = np.argmin(inertia_values) + 2  # +2 perchÃ© inizia da K=2
 
     # K means to optimal_k
     kmeans_optimal = KMeans(n_clusters=optimal_k)
@@ -127,7 +126,6 @@ df = scaler.fit_transform(df)
 ############################################
 ############## DATABASE LOAD ###############
 ############################################
-#######################CARICAMENTO DATASET#######################
 
 
 id_genres = pd.read_csv("..\Dataset\id_genres.csv", delimiter='\t')
@@ -156,7 +154,6 @@ pp_df.to_csv('preprocessed_labels.csv')
 
 
 pp_df['genres_count'] = pp_df['genres'].str.split(',').apply(len)
-main_genres = ['rock', 'jazz','folk','reggae','electronic','pop','country', 'punk','metal','rap']
 df = pp_df[pp_df['genres_count'] <= 2]
 df_1 = pp_df[pp_df['genres_count']==1]
 pp_df=pd.DataFrame()
