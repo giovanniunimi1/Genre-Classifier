@@ -129,32 +129,4 @@ def load_embeddings_from_df(df):
             label_tensor = tf.convert_to_tensor(label, dtype=tf.int32)
             yield tf_embedding,label_tensor
 
-    vggish = Sequential([
-        Conv2D(filters=64, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv1', input_shape=(96, 64, 1)),
-        MaxPooling2D(pool_size=(2,2), strides=2, name='pool1'),
-        Conv2D(filters=128, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv2'),
-        MaxPooling2D(pool_size=(2,2), strides=2, name='pool2'),
-        Conv2D(filters=256, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv3_1'),
-        Conv2D(filters=256, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv3_2'),
-        MaxPooling2D(pool_size=(2,2), strides=2, name='pool3'),
-        Conv2D(filters=512, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv4_1'),
-        Conv2D(filters=512, kernel_size=(3,3), strides=1, padding='same', activation='relu', name='conv4_2'),
-        MaxPooling2D(pool_size=(2,2), strides=2, name='pool4'),
-        Flatten(),
-        Dense(4096, activation='relu', name='fc1_1'),
-        Dense(4096, activation='relu', name='fc1_2'),
-        Dense(128, activation='relu', name='fc2'),
-        Dense(10,activation='softmax')
-    ])
-
-    vggish.load_weights('vggish0000005.h5')
-
-    vggish.pop() 
-
-
-'''
-vggish.compile(optimizer=Adam(learning_rate=0.000005), loss='categorical_crossentropy', metrics=['accuracy',Precision(),Recall()])
-model_checkpoint = ModelCheckpoint('best_model.h5', save_best_only=True, save_weights_only=True, monitor='val_loss', mode='min', verbose=1)
-early_stopping = EarlyStopping(monitor='val_loss', patience=10, mode='min', restore_best_weights=True, verbose=1)
-vggish.fit(train_dataset, epochs=80, validation_data=test_dataset,callbacks=[model_checkpoint, early_stopping],verbose=1)
-'''
+    
